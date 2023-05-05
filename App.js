@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import AllPlaces from './screens/AllPlaces';
 import AddPlace from './screens/AddPlace';
+import IconButton from './components/UI/IconButton';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,7 +23,20 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Όλα τα μέρη" component={AllPlaces} />
+        <Stack.Screen
+          name="Όλα τα μέρη"
+          component={AllPlaces}
+          options={({ navigation }) => ({
+            headerRight: ({ tintColor }) => (
+              <IconButton
+                iconName="add"
+                size={24}
+                color={tintColor}
+                onPress={() => navigation.navigate('Προσθήκη Μέρους')}
+              />
+            ),
+          })}
+        />
         <Stack.Screen name="Προσθήκη Μέρους" component={AddPlace} />
         <Stack.Screen name="Αρχική Οθόνη" component={InitialScreen} />
       </Stack.Navigator>
