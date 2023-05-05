@@ -1,14 +1,32 @@
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import AllPlaces from './screens/AllPlaces';
+import AddPlace from './screens/AddPlace';
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+
+const InitialScreen = () => {
   return (
     <View style={styles.container}>
+      <StatusBar style="auto" />
       <Text style={styles.emoticon}>🇬🇷🇬🇷🇬🇷</Text>
       <Text style={styles.text}>Ούλε τε και μάλα χαίρε!</Text>
       <Text style={styles.emoticon}>🤩</Text>
-      <StatusBar style="auto" />
     </View>
+  );
+};
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Όλα τα μέρη" component={AllPlaces} />
+        <Stack.Screen name="Προσθήκη Μέρους" component={AddPlace} />
+        <Stack.Screen name="Αρχική Οθόνη" component={InitialScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
