@@ -1,4 +1,4 @@
-import { Alert, Button, Image, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, StyleSheet, Text, View } from 'react-native';
 import {
   launchCameraAsync,
   useCameraPermissions,
@@ -6,6 +6,7 @@ import {
 } from 'expo-image-picker';
 import { useState } from 'react';
 import { Colors } from '../../constants/colors';
+import OutlinedButton from '../UI/OutlinedButton';
 
 const ImagePicker = () => {
   const [pickedImage, setPickedImage] = useState();
@@ -13,7 +14,6 @@ const ImagePicker = () => {
     useCameraPermissions();
 
   const verifyPermissions = async () => {
-
     if (cameraPermissionInformation.status === PermissionStatus.UNDETERMINED) {
       const permissionResponse = await requestPermission();
 
@@ -25,7 +25,7 @@ const ImagePicker = () => {
         'Φραγή χρήσης της κάμερας',
         'Δεν έχετε εγκρίνει την χρήση της κάμερας. Εάν θέλετε να καταστεί πλήρως λειτουργική η εφαρμογή θα πρέπει να εγκρίνετε την άδεια χρήσης της κάμερας.'
       );
-      return false
+      return false;
     }
 
     return true;
@@ -37,13 +37,13 @@ const ImagePicker = () => {
     if (!hasPermission) {
       return;
     }
-    
+
     const image = await launchCameraAsync({
       allowsEditing: true,
       aspect: [16, 9],
       quality: 0.5,
     });
-    
+
     setPickedImage(image.assets[0].uri);
   };
 
@@ -55,7 +55,9 @@ const ImagePicker = () => {
   return (
     <View>
       <View style={styles.imagePreview}>{imagePreview}</View>
-      <Button title="Λήψη Φωτογραφίας" onPress={takeImageHandler} />
+      <OutlinedButton iconName='camera' onPress={takeImageHandler}>
+        Λήψη Φωτογραφίας
+      </OutlinedButton>
     </View>
   );
 };
