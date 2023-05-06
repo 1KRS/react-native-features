@@ -1,9 +1,46 @@
-import { StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import OutlinedButton from '../UI/OutlinedButton';
 import { Colors } from '../../constants/colors';
+import {
+  getCurrentPositionAsync,
+  useForegroundPermissions,
+  PermissionStatus,
+} from 'expo-location';
 
 const LocationPicker = () => {
-  const getLocationHandler = () => {};
+  const [locationPermissionInformation, requestPermission] =
+    useForegroundPermissions();
+
+  const verifyPermissions = async () => {
+    if (
+      locationPermissionInformation.status === PermissionStatus.UNDETERMINED
+    ) {
+      const permissionResponse = await requestPermission();
+
+      return permissionResponse.granted;
+    }
+
+    if (locationPermissionInformation.status === PermissionStatus.DENIED) {
+      Alert.alert(
+        'Φραγή χρήσης της τοποθεσίας',
+        'Εάν θέλετε να καταστεί πλήρως λειτουργική η εφαρμογή θα πρέπει να εγκρίνετε την χρήση της τοποθεσίας σας.'
+      );
+      return false;
+    }
+    return true;
+  };
+
+  const getLocationHandler = async () => {
+    const hasPermission = await verifyPermissions();
+
+    if (!hasPermission) {
+      return;
+    }
+
+    const location = await getCurrentPositionAsync();
+    console.log('Τοποθεσία', location);
+  };
+
   const pickOnMapHandler = () => {};
 
   return (

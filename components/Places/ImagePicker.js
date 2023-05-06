@@ -55,7 +55,7 @@ const ImagePicker = () => {
   return (
     <View>
       <View style={styles.imagePreview}>{imagePreview}</View>
-      <OutlinedButton iconName='camera' onPress={takeImageHandler}>
+      <OutlinedButton iconName="camera" onPress={takeImageHandler}>
         Λήψη Φωτογραφίας
       </OutlinedButton>
     </View>
