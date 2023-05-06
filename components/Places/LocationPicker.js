@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, Image, StyleSheet, Text, View } from 'react-native';
 import OutlinedButton from '../UI/OutlinedButton';
 import { Colors } from '../../constants/colors';
 import {
@@ -6,8 +6,11 @@ import {
   useForegroundPermissions,
   PermissionStatus,
 } from 'expo-location';
+import { useState } from 'react';
+import { getMapPreview } from '../../utils/location';
 
 const LocationPicker = () => {
+  const [pickedLocation, setPickedLocation] = useState();
   const [locationPermissionInformation, requestPermission] =
     useForegroundPermissions();
 
@@ -38,14 +41,29 @@ const LocationPicker = () => {
     }
 
     const location = await getCurrentPositionAsync();
+    setPickedLocation({
+      lat: location.coords.latitude,
+      lng: location.coords.longitude,
+    });
     console.log('Τοποθεσία', location);
   };
 
   const pickOnMapHandler = () => {};
 
+  let locationPreview = <Text>Δεν έχει επιλεγεί τοποθεσία.</Text>;
+
+  if (pickedLocation) {
+    locationPreview = (
+      <Image
+        source={{ uri: getMapPreview(pickedLocation.lng, pickedLocation.lat) }}
+        style={styles.image}
+      />
+    );
+  }
+
   return (
     <View>
-      <View style={styles.mapPreview}></View>
+      <View style={styles.mapPreview}>{locationPreview}</View>
       <View style={styles.actions}>
         <OutlinedButton iconName="location" onPress={getLocationHandler}>
           Εντοπισμός
@@ -68,11 +86,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Colors.primary100,
     borderRadius: 4,
+    overflow: 'hidden',
   },
   actions: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
   },
-  mapPreviews: {},
+  image: {
+    width: '100%',
+    height: '100%',
+  },
 });
