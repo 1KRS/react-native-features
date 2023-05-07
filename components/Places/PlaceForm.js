@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Colors } from '../../constants/colors';
 import ImagePicker from './ImagePicker';
 import LocationPicker from './LocationPicker';
+import Button from '../UI/Button';
 
 const PlaceForm = () => {
   const [enteredTitle, setEnteredTitle] = useState('');
@@ -10,6 +11,9 @@ const PlaceForm = () => {
   const changeTitleHandler = (enteredText) => {
     setEnteredTitle(enteredText);
   };
+
+  const savePlaceHandler = () => {};
+
   return (
     <ScrollView style={styles.form}>
       <View>
@@ -22,6 +26,7 @@ const PlaceForm = () => {
       </View>
       <ImagePicker />
       <LocationPicker />
+      <Button onPress={savePlaceHandler}>Πρόσθεσε Μέρος</Button>
     </ScrollView>
   );
 };
@@ -45,6 +50,6 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.primary700,
     borderBottomWidth: 2,
     backgroundColor: Colors.primary100,
-    borderRadius: 5, 
+    borderRadius: 5,
   },
 });
