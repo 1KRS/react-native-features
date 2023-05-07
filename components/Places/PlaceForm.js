@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Colors } from '../../constants/colors';
 import ImagePicker from './ImagePicker';
@@ -7,12 +7,25 @@ import Button from '../UI/Button';
 
 const PlaceForm = () => {
   const [enteredTitle, setEnteredTitle] = useState('');
+  const [takenImage, setTakenImage] = useState();
+  const [pickedLocation, setPickedLocation] = useState();
 
   const changeTitleHandler = (enteredText) => {
     setEnteredTitle(enteredText);
   };
 
-  const savePlaceHandler = () => {};
+  const takeImageHandler = (imageUri) => {
+    setTakenImage(imageUri);
+  };
+  const pickLocationHandler = useCallback((location) => {
+    setPickedLocation(location);
+  }, []);
+
+  const savePlaceHandler = () => {
+    console.log(enteredTitle)
+    console.log(takenImage)
+    console.log(pickedLocation )
+  };
 
   return (
     <ScrollView style={styles.form}>
@@ -24,8 +37,8 @@ const PlaceForm = () => {
           style={styles.input}
         />
       </View>
-      <ImagePicker />
-      <LocationPicker />
+      <ImagePicker onTakeImage={takeImageHandler} />
+      <LocationPicker onPickLocation={pickLocationHandler} />
       <Button onPress={savePlaceHandler}>Πρόσθεσε Μέρος</Button>
     </ScrollView>
   );
