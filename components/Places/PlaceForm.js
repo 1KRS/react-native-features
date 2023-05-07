@@ -17,6 +17,7 @@ const PlaceForm = () => {
   const takeImageHandler = (imageUri) => {
     setTakenImage(imageUri);
   };
+  
   const pickLocationHandler = useCallback((location) => {
     setPickedLocation(location);
   }, []);
