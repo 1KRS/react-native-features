@@ -6,17 +6,32 @@ import {
   useForegroundPermissions,
   PermissionStatus,
 } from 'expo-location';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getMapPreview } from '../../utils/location';
-import { useNavigation } from '@react-navigation/native';
+import {
+  useNavigation,
+  useRoute,
+  useIsFocused,
+} from '@react-navigation/native';
 
 const LocationPicker = () => {
-  const [pickedLocation, setPickedLocation] = useState();
+  const isFocused = useIsFocused();
+  const navigation = useNavigation();
+  const route = useRoute();
 
+  const [pickedLocation, setPickedLocation] = useState();
   const [locationPermissionInformation, requestPermission] =
     useForegroundPermissions();
 
-  const navigation = useNavigation();
+  useEffect(() => {
+    if (isFocused && route.params) {
+      const mapPickedLocation = {
+        lat: route.params.pickedLat,
+        lng: route.params.pickedLng,
+      };
+      setPickedLocation(mapPickedLocation);
+    }
+  }, [route, isFocused]);
 
   const verifyPermissions = async () => {
     if (
@@ -49,10 +64,11 @@ const LocationPicker = () => {
       lat: location.coords.latitude,
       lng: location.coords.longitude,
     });
-    console.log('Τοποθεσία', location);
   };
 
-  const pickOnMapHandler = () => {navigation.navigate('Χάρτης')};
+  const pickOnMapHandler = () => {
+    navigation.navigate('Χάρτης');
+  };
 
   let locationPreview = <Text>Δεν έχει επιλεγεί τοποθεσία.</Text>;
 
