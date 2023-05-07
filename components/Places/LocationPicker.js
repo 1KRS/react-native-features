@@ -8,11 +8,15 @@ import {
 } from 'expo-location';
 import { useState } from 'react';
 import { getMapPreview } from '../../utils/location';
+import { useNavigation } from '@react-navigation/native';
 
 const LocationPicker = () => {
   const [pickedLocation, setPickedLocation] = useState();
+
   const [locationPermissionInformation, requestPermission] =
     useForegroundPermissions();
+
+  const navigation = useNavigation();
 
   const verifyPermissions = async () => {
     if (
@@ -48,7 +52,7 @@ const LocationPicker = () => {
     console.log('Τοποθεσία', location);
   };
 
-  const pickOnMapHandler = () => {};
+  const pickOnMapHandler = () => {navigation.navigate('Χάρτης')};
 
   let locationPreview = <Text>Δεν έχει επιλεγεί τοποθεσία.</Text>;
 

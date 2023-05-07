@@ -6,6 +6,7 @@ import AllPlaces from './screens/AllPlaces';
 import AddPlace from './screens/AddPlace';
 import IconButton from './components/UI/IconButton';
 import { Colors } from './constants/colors';
+import Map from './screens/Map';
 
 const Stack = createNativeStackNavigator();
 
@@ -62,6 +63,11 @@ export default function App() {
           name="Προσθήκη Μέρους"
           component={AddPlace}
           options={{ title: 'Πρόσθεσε ένα νέο μέρος' }}
+        />
+        <Stack.Screen
+          name="Χάρτης"
+          component={Map}
+          // options={{ title: 'Πρόσθεσε ένα νέο μέρος' }}
         />
       </Stack.Navigator>
     </NavigationContainer>
