@@ -7,6 +7,10 @@ import AddPlace from './screens/AddPlace';
 import IconButton from './components/UI/IconButton';
 import { Colors } from './constants/colors';
 import Map from './screens/Map';
+import PlaceDetails from './screens/PlaceDetails';
+// import { useEffect, useState } from 'react';
+// import { init } from './utils/database';
+// import * as SplashScreen from 'expo-splash-screen';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,7 +25,25 @@ const InitialScreen = () => {
   );
 };
 
+// SplashScreen.preventAutoHideAsync();
+
 export default function App() {
+  // const [dbInitialized, setDbInitialized] = useState(false);
+
+  // useEffect(() => {
+  //   init()
+  //     .then(() => {
+  //       setDbInitialized(true);
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // }, []);
+
+  // if (!dbInitialized) {
+  //   console.log('Δεν είναι έτοιμο');
+  // }
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -33,17 +55,21 @@ export default function App() {
           contentStyle: { backgroundColor: Colors.gray700 },
         }}
       >
-        <Stack.Screen name="Αρχική Οθόνη" component={InitialScreen} options={
-          ({navigation}) => ({
+        <Stack.Screen
+          name="Αρχική Οθόνη"
+          component={InitialScreen}
+          options={({ navigation }) => ({
             title: 'Αρχική Οθόνη',
-            headerRight: ({tintColor}) => (
-              <IconButton iconName="map"
+            headerRight: ({ tintColor }) => (
+              <IconButton
+                iconName="map"
                 size={24}
                 color={tintColor}
-                onPress={() => navigation.navigate('Όλα τα μέρη')}/> 
-            )
-          })
-        }/>
+                onPress={() => navigation.navigate('Όλα τα μέρη')}
+              />
+            ),
+          })}
+        />
         <Stack.Screen
           name="Όλα τα μέρη"
           component={AllPlaces}
@@ -64,10 +90,11 @@ export default function App() {
           component={AddPlace}
           options={{ title: 'Πρόσθεσε ένα νέο μέρος' }}
         />
+        <Stack.Screen name="Χάρτης" component={Map} />
         <Stack.Screen
-          name="Χάρτης"
-          component={Map}
-          // options={{ title: 'Πρόσθεσε ένα νέο μέρος' }}
+          name="Πληροφορίες Μέρους"
+          component={PlaceDetails}
+          options={{ title: 'Loading Place...' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -1,10 +1,13 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Colors } from '../../constants/colors';
 
-const PlaceItem = ({ place, onPress }) => {
+const PlaceItem = ({ place, onSelect }) => {
   return (
-    <Pressable onPress={onPress} style={({pressed}) => [styles.item, pressed && styles.pressed]}>
-      <Image source={{ uri: place.imageUri }} style={styles.image}/>
+    <Pressable
+      onPress={onSelect.bind(this, place.id)}
+      style={({ pressed }) => [styles.item, pressed && styles.pressed]}
+    >
+      <Image source={{ uri: place.imageUri }} style={styles.image} />
       <View style={styles.info}>
         <Text style={styles.title}>{place.title}</Text>
         <Text style={styles.address}>{place.address}</Text>
@@ -24,7 +27,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     shadowColor: 'black',
     shadowOpacity: 0.15,
-    shadowOffset: {width: 0, height: 0},
+    shadowOffset: { width: 0, height: 0 },
     shadowRadius: 2,
   },
   pressed: {
@@ -32,10 +35,9 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-borderBottomLeftRadius: 4,
-borderTopLeftRadius: 4,
-height: 100,
-
+    borderBottomLeftRadius: 4,
+    borderTopLeftRadius: 4,
+    height: 100,
   },
   info: {
     flex: 2,
